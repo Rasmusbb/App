@@ -8,3 +8,8 @@ export async function Login (LoginData) {
     return Data;
 }
 
+export async function GetAllUsers () {
+  let Data = await fetch(API + '/User/GetAllUsers')
+    .then(res => res.json());
+  return Data;
+}

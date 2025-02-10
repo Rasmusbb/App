@@ -3,6 +3,7 @@
 	import { Login } from '/src/Logic/API.js';
 	import { goto } from '$app/navigation';
   import { json } from '@sveltejs/kit';
+  import { onMount } from 'svelte';
 	let loginfailed = false;
 	let test = "Not Localstorage";
 	let LoginData =
@@ -21,8 +22,6 @@
 		console.log("Login failed")
 		loginfailed = true;
 	}	
-
-
   }
 </script>
 
@@ -31,7 +30,7 @@
 
 
 <div>
-	<img> <img src={logo} alt="ZooLogo" width="150" height="150" />
+	<img src={logo} alt="ZooLogo" width="150" height="150" />
 	<form on:submit={SubmitLogin}>
 		<label for="text">E-mail:</label>
 		<input bind:value={LoginData.Email} type="text">

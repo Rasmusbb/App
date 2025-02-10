@@ -2,11 +2,15 @@ import Home from '$lib/images/home.png';
 import Paw from '$lib/images/paw.png';
 import Fence from '$lib/images/fence.png';
 import Staff from '$lib/images/staff.png';
+import ZooKeeper from '$lib/images/zookeeper.png';
+import Veterinarian from '$lib/images/veterinarian.png'
 
 
 export default {
     Paw: Paw,
     Home: Home,
     Fence: Fence,
-    Staff: Staff
+    Staff: Staff,
+    ZooKeeper: ZooKeeper,
+    Veterinarian: Veterinarian
 };
