@@ -5,23 +5,23 @@
   import { json } from '@sveltejs/kit';
   import { onMount } from 'svelte';
 	let loginfailed = false;
-	let test = "Not Localstorage";
 	let LoginData =
 	{
 		Email: "",
 		Password: ""
 	};
-	let user = "";
+	let Token = "";
 	async function SubmitLogin(event) {
 	event.preventDefault()
-	user = await Login(LoginData)
-	if (user.userID != null) {
-		localStorage.setItem("user", JSON.stringify(user));
+	Token = await Login(LoginData)
+	if (Token != null) {
+		localStorage.setItem("Token", Token);
 		goto("/Home")
 	}else{
 		console.log("Login failed")
 		loginfailed = true;
-	}	
+	}
+	console.log(Token)	
   }
 </script>
 

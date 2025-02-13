@@ -4,6 +4,7 @@ import Fence from '$lib/images/fence.png';
 import Staff from '$lib/images/staff.png';
 import ZooKeeper from '$lib/images/zookeeper.png';
 import Veterinarian from '$lib/images/veterinarian.png'
+import Admin from '$lib/images/admin.png'
 
 
 export default {
@@ -12,5 +13,6 @@ export default {
     Fence: Fence,
     Staff: Staff,
     ZooKeeper: ZooKeeper,
-    Veterinarian: Veterinarian
+    Veterinarian: Veterinarian,
+    Admin: Admin
 };

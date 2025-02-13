@@ -25,8 +25,8 @@
                 <img  src={page.url.pathname === '/Staff' ?PictureList.Staff : PictureListInv.Staff} alt="Staff List"/>
             </a>
 
-            <a href="/Home">
-                <img src={UserProfil} alt="UserProfil" />
+            <a href="/MyProfil">
+                <img src={UserProfil} alt="MyProfil" />
             </a>
         </ul>
     </nav>

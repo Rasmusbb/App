@@ -12,7 +12,7 @@
                 mainArea: "fokus"
     }
 
-
+    let User
     let Users
     async function GetUsers(){
         Users = await GetAllUsers()
@@ -31,6 +31,7 @@
         {#each Users as User}
 		    <ListeCompGrid Data={User}/>
         {/each}
+
 
     </div>
     <Footer />

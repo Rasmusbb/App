@@ -24,10 +24,9 @@
 
     onMount(() => {
         screen = updateSize();
-        User = JSON.parse(localStorage.getItem("user"))
+        Token = localStorage.getItem("Token")
         console.log("User:")
-        console.log(User.name)
-        if (User.name == null) {
+        if (Token == null) {
             goto("/")
         }
         window.addEventListener("resize", updateSize);
