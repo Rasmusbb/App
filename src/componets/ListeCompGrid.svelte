@@ -12,8 +12,7 @@ export let Data = {
             let parts = fullName.split(" "); 
             let firstName = parts[0]; 
             let lastInitial = parts.length > 1 ? parts[1][0] : ""; 
-            console.log(`${firstName} ${lastInitial}`);
-            return `${firstName} ${lastInitial}`;
+            return `${firstName} ${lastInitial}...`;
     }
 </script>
 

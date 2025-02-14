@@ -9,7 +9,7 @@
     };
 
     function formatName(fullName) {
-        console.log("Hello"); // Debugging log
+        console.log("Hello"); 
         let parts = fullName.split(" "); 
         let firstName = parts[0]; 
         let lastInitial = parts.length > 1 ? parts[1][0] : ""; 

@@ -21,7 +21,6 @@
 		console.log("Login failed")
 		loginfailed = true;
 	}
-	console.log(Token)	
   }
 </script>
 
@@ -40,7 +39,7 @@
 			<p style="color: red;">Wrong password or Email</p>
 		{/if}
 		<button type="submit">Login</button>
-		</form>
+	</form>
 </div>
 <style>
 	form {

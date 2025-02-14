@@ -5,9 +5,7 @@
     import {onMount} from "svelte";
     import { goto } from '$app/navigation';
     let Isdesktop = true;
-    let User = {
-        name: "Loading...",
-    };
+    let Token
     let screen = {
         width: 0,
         height: 0
@@ -25,7 +23,6 @@
     onMount(() => {
         screen = updateSize();
         Token = localStorage.getItem("Token")
-        console.log("User:")
         if (Token == null) {
             goto("/")
         }
@@ -37,7 +34,17 @@
     {#if Isdesktop}
         <Header />
     {:else}  
+        <div class="Body">
+        </div>
        <Footer />
     {/if}
     
 </div>
+
+
+<style>
+    .Body {
+        min-height: 90vh;
+        max-height: 90vh;
+    }
+</style>

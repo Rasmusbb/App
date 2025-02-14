@@ -8,9 +8,7 @@ export async function Login(LoginData) {
   let Data = await fetch(API + '/User/Login?Email=' + LoginData.Email + '&Password=' + LoginData.Password, 
     {
       method: 'GET'
-    }).then();
-
-
+    }).then(res => res.text());
   return Data;
 }
 
@@ -26,6 +24,7 @@ export async function GetUser (UserID) {
 }
 
 
+
 export async function GetAllUsers () {
   let Data = await fetch(API + '/User/GetAllUsers',{
     method: 'GET',
@@ -34,5 +33,20 @@ export async function GetAllUsers () {
         'Content-Type': 'application/json'
     }
   }).then(res => res.json());
+  return Data;
+}
+
+
+
+export async function AddUser(UserData) {
+  let Data = await fetch(API + '/User/AddUser', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(UserData) 
+  }).then(res => res.json());
+
   return Data;
 }

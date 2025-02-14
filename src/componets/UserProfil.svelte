@@ -3,7 +3,6 @@
     import { json } from "@sveltejs/kit";
     import { onMount } from "svelte";
     import UserProfil from '$lib/images/UserProfil.png';
-  
       let user
       onMount(() => {
           user = JSON.parse(localStorage.getItem("user"))

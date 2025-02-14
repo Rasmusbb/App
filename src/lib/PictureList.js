@@ -5,6 +5,7 @@ import Staff from '$lib/images/staff.png';
 import ZooKeeper from '$lib/images/zookeeper.png';
 import Veterinarian from '$lib/images/veterinarian.png'
 import Admin from '$lib/images/admin.png'
+import AddUser from '$lib/images/AddUser.png'
 
 
 export default {
@@ -14,5 +15,6 @@ export default {
     Staff: Staff,
     ZooKeeper: ZooKeeper,
     Veterinarian: Veterinarian,
-    Admin: Admin
+    Admin: Admin,
+    AddUser: AddUser
 };
