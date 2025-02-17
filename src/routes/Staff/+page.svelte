@@ -4,10 +4,11 @@
     import PictureList from '$lib/PictureList.js';
     import Footer from "../../componets/Footer.svelte"
     import ListeComp from "../../componets/ListeCompGrid.svelte"
+    import AddnewButton from '../../componets/AddnewButton.svelte';
     import ListHeader from "../../componets/ListHeader.svelte";
     import { GetAllUsers } from '/src/Logic/API.js';
     import ListeCompGrid from '../../componets/ListeCompGrid.svelte';
-    import AddNew from '../../componets/AddNew.svelte';
+    import AddNew from '../../componets/AddUserNew.svelte';
     let showModal = false;
     let ListHeadData = {
                 Name: "Navn",
@@ -47,9 +48,7 @@
                 {/each}
     
                 {#if User?.Role === "Admin"}  
-                    <button on:click={test} class="NewUser">
-                        <img src={PictureList.AddUser} alt="Add User">
-                    </button>
+                    <AddnewButton img="AddUser"></AddnewButton>
                 {/if}
             {/if}
         {/if}
@@ -65,18 +64,4 @@
             min-height: 90vh;
             max-height: 90vh;
     }
-
-    .NewUser{
-        margin-top: 1em;
-        margin-bottom: 1em;
-        display: flex;
-        border-color: black;
-        border-style: solid;
-        justify-content: center;
-    }
-	img {
-		width: 5em;
-		height: 2em;
-		object-fit: contain;
-	}
 </style>

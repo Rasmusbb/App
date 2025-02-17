@@ -6,6 +6,7 @@ import ZooKeeper from '$lib/images/zookeeper.png';
 import Veterinarian from '$lib/images/veterinarian.png'
 import Admin from '$lib/images/admin.png'
 import AddUser from '$lib/images/AddUser.png'
+import AddAnimal from '$lib/images/AddAnimal.png'
 
 
 export default {
@@ -16,5 +17,6 @@ export default {
     ZooKeeper: ZooKeeper,
     Veterinarian: Veterinarian,
     Admin: Admin,
-    AddUser: AddUser
+    AddUser: AddUser,
+    AddAnimal: AddAnimal
 };

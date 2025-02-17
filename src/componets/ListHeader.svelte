@@ -1,18 +1,18 @@
 <script>    
     export let ListHead = {
-                Name: "Navn",
-                Role: "Rolle",
-                phone: "Telefon",
-                mainArea: "Hovedområde"
+                Value1: "Navn",
+                Value2: "Rolle",
+                Value3: "Telefon",
+                Value4: "Hovedområde"
             }
 </script>
 
 <div>
     <div class="ListeComp">
-        <div>{ListHead.Name}</div>
-        <div>{ListHead.phone}</div>
-        <div>{ListHead.mainArea}</div>
-        <div>{ListHead.Role}</div>
+        <div>{ListHead.Value1}</div>
+        <div>{ListHead.Value2}</div>
+        <div>{ListHead.Value3}</div>
+        <div>{ListHead.Value4}</div>
     </div>
 </div>
 
