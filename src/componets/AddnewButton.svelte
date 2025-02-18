@@ -5,7 +5,7 @@ export let img
 const dispatch = createEventDispatcher();
 </script>
 
-<button on:click={() => dispatch("Click")}>
+<button on:click={() => dispatch("click")}>
     <img src={PictureList[img]} alt="{img}">
 </button>
 

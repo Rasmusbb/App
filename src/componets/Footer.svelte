@@ -34,7 +34,9 @@
 
 <style>
 	footer {
-		display: flex;
+		width: 100%;
+		z-index: 20;
+		display: fixed;
 		justify-content: space-between;
 	}
 

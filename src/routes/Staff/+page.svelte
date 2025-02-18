@@ -8,7 +8,7 @@
     import ListHeader from "../../componets/ListHeader.svelte";
     import { GetAllUsers } from '/src/Logic/API.js';
     import ListeCompGrid from '../../componets/ListeCompGrid.svelte';
-    import AddNew from '../../componets/AddUserNew.svelte';
+    import ModalForm from "../../componets/ModalForm.svelte";
     let showModal = false;
     let ListHeadData = {
                 Name: "Navn",
@@ -16,9 +16,9 @@
                 phone: "Telefon",
                 mainArea: "fokus"
     }
-    function test() {
-        showModal = true
-        console.log(showModal)
+    const toggleModal = () =>{
+        showModal = !showModal
+        console.log("Hello")
     }
     let User    
     let Users
@@ -38,18 +38,13 @@
 <div>
     <div class="Staff">
         {#if User != null}
-            {#if showModal}
-                <AddNew></AddNew>
-            {:else}
-                <ListHeader ListHead={ListHeadData} />
-    
-                {#each Users as user}  
-                    <ListeCompGrid Data={user} />
-                {/each}
-    
-                {#if User?.Role === "Admin"}  
-                    <AddnewButton img="AddUser"></AddnewButton>
-                {/if}
+            <ModalForm showModal={showModal}></ModalForm>
+            <ListHeader ListHead={ListHeadData} />
+            {#each Users as user}  
+                <ListeCompGrid Data={user} />
+            {/each}
+            {#if User?.Role === "Admin"}  
+                <AddnewButton on:click={toggleModal} img="AddUser"></AddnewButton>
             {/if}
         {/if}
     </div>    

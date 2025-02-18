@@ -3,13 +3,22 @@
 let API = import.meta.env.VITE_PUBLIC_API_URL;
 
 
-
 export async function Login(LoginData) {
-  let Data = await fetch(API + '/User/Login?Email=' + LoginData.Email + '&Password=' + LoginData.Password, 
-    {
+  try {
+    const response = await fetch(API + `/User/Login?Email=${LoginData.Email}&Password=${LoginData.Password}`, {
       method: 'GET'
-    }).then(res => res.text());
-  return Data;
+    });
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+
+    console.log(await response.text);
+    return await response.text();
+  } catch (error) {
+    console.error('Error during login:', error);
+    return null; // Or handle the error as needed
+  }
 }
 
 
@@ -46,6 +55,19 @@ export async function AddUser(UserData) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(UserData) 
+  }).then(res => res.json());
+
+  return Data;
+}
+
+export async function AddAnimal(AnimalData) {
+  let Data = await fetch(API + '/Animal/AddAnimal', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+      'Content-Type': 'application/json'
+    },
+    body: AnimalData
   }).then(res => res.json());
 
   return Data;

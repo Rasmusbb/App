@@ -3,7 +3,7 @@
     import PictureList from "$lib/PictureList";
     import AddNew from "../../componets/AddNewButton.svelte";
     import AddnewButton from '../../componets/AddnewButton.svelte';
-    import NewAnimal from "../../componets/NewAnimal.svelte";
+    import ModalForm from "../../componets/ModalForm.svelte";
     import { onMount } from "svelte"
     import { jwtDecode } from "jwt-decode";
     let showModal
@@ -26,10 +26,9 @@
         User = jwtDecode(localStorage.getItem("Token"))
 })
 </script>
-    <NewAnimal showModal={showModal}></NewAnimal>
+    <ModalForm showModal={showModal}></ModalForm>
 <div class="Body">
-    {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}  
-        <button on:click={toggleModal}>Hello</button>
+    {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}
         <AddnewButton on:click={toggleModal} img="AddAnimal"/>
     {/if}   
 </div>
@@ -41,13 +40,5 @@
         flex-direction: column;
         min-height: 90vh;
         max-height: 90vh;
-    }
-    .NewAnimal{
-        margin-top: 1em;
-        margin-bottom: 1em;
-        display: flex;
-        border-color: black;
-        border-style: solid;
-        justify-content: center;
     }
 </style>

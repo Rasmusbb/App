@@ -13,6 +13,7 @@
 	let Token = "";
 	async function SubmitLogin(event) {
 	event.preventDefault()
+	localStorage.removeItem(Token);
 	Token = await Login(LoginData)
 	if (Token != null) {
 		localStorage.setItem("Token", Token);
