@@ -6,24 +6,24 @@
     import ListeComp from "../../componets/ListeCompGrid.svelte"
     import AddnewButton from '../../componets/AddnewButton.svelte';
     import ListHeader from "../../componets/ListHeader.svelte";
-    import { GetAllUsers } from '/src/Logic/API.js';
+    import API from '/src/Logic/API.js';
     import ListeCompGrid from '../../componets/ListeCompGrid.svelte';
     import ModalForm from "../../componets/ModalForm.svelte";
     let showModal = false;
     let ListHeadData = {
-                Name: "Navn",
-                Role: "Rolle",
-                phone: "Telefon",
-                mainArea: "fokus"
+                Value1: "Navn",
+                Value2: "Rolle",
+                Value3: "Telefon",
+                Value4: "fokus"
     }
     const toggleModal = () =>{
         showModal = !showModal
-        console.log("Hello")
     }
     let User    
     let Users
     async function GetUsers(){
-        Users = await GetAllUsers()
+        Users = await API["GetAllUsers"](localStorage.getItem("Token"))
+        console.log(localStorage.getItem("Token"))
     }
     onMount(() => {
         GetUsers()
@@ -37,9 +37,9 @@
 
 <div>
     <div class="Staff">
+        <ModalForm modalType="AddUser", showModal={showModal}></ModalForm>
+        <ListHeader ListHead={ListHeadData} />
         {#if User != null}
-            <ModalForm showModal={showModal}></ModalForm>
-            <ListHeader ListHead={ListHeadData} />
             {#each Users as user}  
                 <ListeCompGrid Data={user} />
             {/each}

@@ -1,5 +1,5 @@
 
-<script src="">
+<script>
   import { json } from "@sveltejs/kit"
   import UserProfil from "../../componets/UserProfil.svelte"
   import Footer from "../../componets/Footer.svelte"
@@ -14,7 +14,7 @@
     })
 </script>
 
-<div>
+<div class="main">
     <UserProfil></UserProfil>
     <Footer />
 </div>

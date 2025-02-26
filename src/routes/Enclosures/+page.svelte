@@ -1,25 +1,27 @@
 <script>
     import Footer from "../../componets/Footer.svelte"
+    import ModalForm from "../../componets/ModalForm.svelte";
     import AddnewButton from "../../componets/AddNewButton.svelte";
     import { onMount } from "svelte"
     import { jwtDecode } from "jwt-decode";
-
-
-
+    let showModal = false
     let User    
-    let Users
-    async function GetUsers(){
-        Users = await GetAllUsers()
+    let Enclosures = {}
+    const toggleModal = () =>{
+        showModal = !showModal
     }
     onMount(() => {
-        GetUsers()
         User = jwtDecode(localStorage.getItem("Token"))
         console.log(User.Role)
 })
 </script>
+<ModalForm modalType="AddEnclosure", showModal={showModal} ></ModalForm>
 <div class="Body">
+    {#each Enclosures as Enclosures}  
+        <ListeCompGrid Data={ennclosure} />
+    {/each}
     {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}  
-        <AddnewButton img="Fence"/>
+        <AddnewButton  on:click={toggleModal} img="Fence"/>
     {/if} 
 </div>
 <Footer />

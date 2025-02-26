@@ -2,13 +2,12 @@
 
 let API = import.meta.env.VITE_PUBLIC_API_URL;
 
-
-export async function Login(LoginData) {
+//UserController
+async function Login(LoginData) {
   try {
     const response = await fetch(API + `/User/Login?Email=${LoginData.Email}&Password=${LoginData.Password}`, {
       method: 'GET'
     });
-
     if (!response.ok) {
       throw new Error(response.status);
     }
@@ -22,11 +21,11 @@ export async function Login(LoginData) {
 }
 
 
-export async function GetUser (UserID) {
+async function GetUser (UserID,Token) {
   let Data = await fetch(API + '/User/GetUser?UserID=' + UserID,{
     method: 'GET',
     headers: {
-        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+        'Authorization': `Bearer ${Token}`,
     }
   }).then(res => res.json);
   return Data;
@@ -34,11 +33,11 @@ export async function GetUser (UserID) {
 
 
 
-export async function GetAllUsers () {
+async function GetAllUsers (Token) {
   let Data = await fetch(API + '/User/GetAllUsers',{
     method: 'GET',
     headers: {
-        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+        'Authorization': `Bearer ${Token}`,
         'Content-Type': 'application/json'
     }
   }).then(res => res.json());
@@ -47,11 +46,11 @@ export async function GetAllUsers () {
 
 
 
-export async function AddUser(UserData) {
+async function AddUser(UserData,Token) {
   let Data = await fetch(API + '/User/AddUser', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+      'Authorization': `Bearer ${Token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(UserData) 
@@ -60,15 +59,39 @@ export async function AddUser(UserData) {
   return Data;
 }
 
-export async function AddAnimal(AnimalData) {
+
+//AnimalController
+async function AddAnimal(AnimalData,Token) {
   let Data = await fetch(API + '/Animal/AddAnimal', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+      'Authorization': `Bearer ${Token}`,
       'Content-Type': 'application/json'
     },
     body: AnimalData
   }).then(res => res.json());
-
   return Data;
 }
+
+//EnclosureController
+async function AddEnclosure(EnclosureData,Token) {
+  let Data = await fetch(API + '/Enclosure/AddEnclosure', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${Token}`,
+      'Content-Type': 'application/json'
+    },
+    body: EnclosureData
+  }).then(res => res.json());
+  return Data;  
+}
+
+
+export default {
+    Login:  Login,
+    GetUser: GetUser,
+    GetAllUsers: GetAllUsers,
+    AddUser: AddUser,
+    AddAnimal: AddAnimal,
+    AddEnclosure: AddEnclosure
+};

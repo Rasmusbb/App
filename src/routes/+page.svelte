@@ -1,32 +1,25 @@
 <script>
 	import logo from '$lib/images/ZooLogo.png';
-	import { Login } from '/src/Logic/API.js';
+	import API from '/src/Logic/API.js';
 	import { goto } from '$app/navigation';
-  import { json } from '@sveltejs/kit';
-  import { onMount } from 'svelte';
+  	import { json } from '@sveltejs/kit';
+  	import { onMount } from 'svelte';
 	let loginfailed = false;
-	let LoginData =
-	{
-		Email: "",
-		Password: ""
-	};
+	let LoginData = {};
 	let Token = "";
 	async function SubmitLogin(event) {
-	event.preventDefault()
-	localStorage.removeItem(Token);
-	Token = await Login(LoginData)
-	if (Token != null) {
-		localStorage.setItem("Token", Token);
-		goto("/Home")
-	}else{
-		console.log("Login failed")
-		loginfailed = true;
-	}
-  }
+		event.preventDefault()
+		localStorage.removeItem(Token);
+		Token = await API["Login"](LoginData)
+		if (Token != null) {
+			localStorage.setItem("Token", Token);
+			goto("/Home")
+		}else{
+			console.log("Login failed")
+			loginfailed = true;
+		}
+}
 </script>
-
-
-
 
 
 <div>

@@ -28,14 +28,14 @@
             <div class="ContactInfo">
                 <h2>Kontankt Infomation</h2>
                 <div class="info">
-                    <h3 on:click={() => copyLink(user.email)} class="ListeComp">Email: {user.email}</h3>
-                    <h3 on:click={() => copyLink(user.phone)} class="ListeComp">Phone: {user.phone}</h3>
+                    <button on:click={() => copyLink(user.email)} class="ListeComp">Email: {user.email}</button>
+                    <button on:click={() => copyLink(user.phone)} class="ListeComp">Phone: {user.phone}</button>
                 </div>
             </div>
         </div>
         {/if}
       </div>
-  </div>
+  </div>s
   
   <style>
       .main{

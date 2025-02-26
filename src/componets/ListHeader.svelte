@@ -7,7 +7,7 @@
             }
 </script>
 
-<div>
+<div class = "ListHeader">
     <div class="ListeComp">
         <div>{ListHead.Value1}</div>
         <div>{ListHead.Value2}</div>

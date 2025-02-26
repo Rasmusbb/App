@@ -6,27 +6,24 @@
     import ModalForm from "../../componets/ModalForm.svelte";
     import { onMount } from "svelte"
     import { jwtDecode } from "jwt-decode";
+    import API from "../../Logic/API.js"
+    import ListHeader from "../../componets/ListHeader.svelte";
     let showModal
     let ListHeadData = {
                 Value1: "Navn",
-                Value2: "Rolle",
-                Value3: "Telefon",
-                Value4: "fokus"
     }
-
     const toggleModal = () =>{
         showModal = !showModal
-        console.log("Hello")
     }
 
     let User    
-    async function GetAnimals(){
-    }
     onMount(() => {
         User = jwtDecode(localStorage.getItem("Token"))
+
 })
 </script>
-    <ModalForm showModal={showModal}></ModalForm>
+    <ModalForm modalType="AddAnimal", showModal={showModal} ></ModalForm>
+    <ListHeader ListHead={ListHeadData} />
 <div class="Body">
     {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}
         <AddnewButton on:click={toggleModal} img="AddAnimal"/>
