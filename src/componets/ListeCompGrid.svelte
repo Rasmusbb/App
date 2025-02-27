@@ -1,31 +1,22 @@
 <script>
 import PictureList from '$lib/PictureList.js';
-export let Data = {
-                name: "Rasmus sørensen",
-                role: "ZooKeeper",
-                phone: "80198917",
-                mainArea: "NotFound"
-            }
-            
-        function formatName(fullName) {
-            console.log("Hello"); // Debugging log
-            let parts = fullName.split(" "); 
-            let firstName = parts[0]; 
-            let lastInitial = parts.length > 1 ? parts[1][0] : ""; 
-            return `${firstName} ${lastInitial}...`;
-    }
+export let Data = {};
 </script>
 
 
 
 <div class="ListeComp">
-     <div class="info">{formatName(Data.name)}</div>   
-     <div class="info">{Data.phone}</div>  
-     <div class="info">{Data.mainArea}</div>
-     <div class="info">
-        <img  src={PictureList[Data.role]}  alt="{Data.role}"/>
-     </div>
-</div>
+    {#each Object.entries(Data) as [key, value]}
+      <div class="info">
+        {#if key === "Role" && PictureList[value] || key==="gender" && PictureList[value]}
+          <img src={PictureList[value]} alt={value} />
+        {:else}
+          {value}
+        {/if}
+      </div>
+    {/each}
+  </div>
+  
 
 
 <style>

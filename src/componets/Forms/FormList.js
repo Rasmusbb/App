@@ -1,8 +1,10 @@
-import AddAnimal from './AddAnimalForm.svelte';
+import AddAnimal from './AddAnimal.svelte';
 import AddEnclosure from './AddEnclosure.svelte';
+import AddUser from './AddUser.svelte';
 
 
 export default {
     AddAnimal: AddAnimal,
-    AddEnclosure: AddEnclosure
+    AddEnclosure: AddEnclosure,
+    AddUser: AddUser
 };

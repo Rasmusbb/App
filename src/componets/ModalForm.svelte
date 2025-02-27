@@ -3,11 +3,18 @@
     import FormList from './Forms/FormList.js';
     export let showModal = false
     export let modalType = ""
+    export let Data = {}
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+    function toggleModal(event) {
+        event.preventDefault()
+        dispatch("submit",event.detail);
+    }
 </script>
 {#if showModal}
     <div class="Modal">
         <button class="close-btn" on:click={() => showModal = !showModal}>✖</button>
-        <svelte:component on:submit={showModal != showModal} this={FormList[modalType]} />
+        <svelte:component on:submit={toggleModal} this={FormList[modalType]} />
     </div>
 {/if}
 
@@ -18,7 +25,7 @@
     position: fixed;
     border-radius: 10px;
     width: 80vw;
-    height: 90vh;
+    height: fit-content;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -27,6 +34,7 @@
     justify-content: center;
     color: white;
     padding: 10px;
+    z-index: 1;
 }
 
 /* Close Button Styling */

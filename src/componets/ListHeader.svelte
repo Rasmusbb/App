@@ -19,11 +19,13 @@
 <style>
     .ListeComp {
         display: grid;
+        width: 100%;    
         grid-template-columns: 2fr  2fr 2fr 1fr;
         grid-column-gap: 0.2em;
         grid-template-rows: 2em;
         font-weight: bolder;
         font-size: large;
+        align-items: center;
     }
 
 

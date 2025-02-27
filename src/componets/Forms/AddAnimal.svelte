@@ -6,13 +6,12 @@
     const dispatch = createEventDispatcher();
 
     async function SubmitData(event) {
-        event.preventDefault()
-        API["AddAnimal"](Data)
-        dispatch("submit")
-  	}
+		event.preventDefault()
+        dispatch("submit",Data);
+    }
 </script>
 
-<form on:submit={() => SubmitData()}>
+<form on:submit={SubmitData}>
     <h2>Add Animal</h2>
 
     <label for="physical-id">Fysisk ID:</label>
@@ -20,7 +19,12 @@
 
     <label for="name">Navn:</label>
     <input bind:value={Data.name} id="name" type="text">
-
+    <label for="Gender">Køn:</label>
+    <select id="Gender" bind:value={Data.gender} type="text">   
+        <option value="Male">Han</option>
+        <option value="Female">Hun</option>
+        <option value="Both">hermafrodi</option>
+    </select>
     <label for="Origin">Oprindelse:</label>
     <input bind:value={Data.origan} id="Origin" type="text">
 

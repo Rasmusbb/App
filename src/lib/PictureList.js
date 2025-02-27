@@ -7,7 +7,9 @@ import Veterinarian from '$lib/images/veterinarian.png'
 import Admin from '$lib/images/admin.png'
 import AddUser from '$lib/images/AddUser.png'
 import AddAnimal from '$lib/images/AddAnimal.png'
-
+import Female from '$lib/images/Female.png'
+import Male from '$lib/images/Male.png'
+import Bigender from '$lib/images/Bigender.png'
 
 export default {
     Paw: Paw,
@@ -18,5 +20,8 @@ export default {
     Veterinarian: Veterinarian,
     Admin: Admin,
     AddUser: AddUser,
-    AddAnimal: AddAnimal
+    AddAnimal: AddAnimal,
+    Female: Female,
+    Male: Male,
+    Bigender: Bigender  
 };

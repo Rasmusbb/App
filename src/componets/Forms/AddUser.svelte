@@ -1,21 +1,26 @@
 <script>
-    import API from '../../Logic/API.js';
-    export let Data = {}
-    let status = ""
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
-    async function SubmitData(event) {
+	let Data = {}
+	async function SubmitUser(event) {
 		event.preventDefault()
-        API["AddEnclosure"](Data, localStorage.getItem("Token"));
-        dispatch("submit");
-    }
+		console.log(event)
+		//User = AddUser()
+		if (Token != null) {
+			localStorage.setItem("Token", Token);
+			goto("/Home")
+		}else{
+			console.log("Login failed")
+			loginfailed = true;
+		}
+  	}
 </script>
 
-<form on:submit={SubmitData}>
-    <label for="name">Navn:</label>
-    <input bind:value={Data.enclosurename} id="name" type="text">
-    <label for="size">størrelse(m²):</label>
-    <input bind:value={Data.size} id="name" type="text">
+<form on:submit={SubmitUser}>
+    <label for="name">BrugerNavn:</label>
+    <input bind:value={Data.Name} id="name" type="text">
+	<label for="email">Email:</label>
+	<input bind:value={Data.email} id="name" type="text">
+    <label for="size">Password:</label>
+    <input bind:value={Data.password} id="name" type="text">
     <button type="submit" class="submit-btn">Tilføj</button>
 </form>
 

@@ -68,20 +68,34 @@ async function AddAnimal(AnimalData,Token) {
       'Authorization': `Bearer ${Token}`,
       'Content-Type': 'application/json'
     },
-    body: AnimalData
+    body: JSON.stringify(AnimalData)
   }).then(res => res.json());
   return Data;
 }
 
+async function GetAllAnimals(Token) {
+  let Data = await fetch(API + '/Animal/GetAllAnimals',{
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${Token}`,
+        'Content-Type': 'application/json'
+    }
+}
+  ).then(res => res.json());
+  return Data;
+}
+
+
 //EnclosureController
 async function AddEnclosure(EnclosureData,Token) {
+  console.log(EnclosureData);
   let Data = await fetch(API + '/Enclosure/AddEnclosure', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${Token}`,
       'Content-Type': 'application/json'
     },
-    body: EnclosureData
+    body: JSON.stringify(EnclosureData)
   }).then(res => res.json());
   return Data;  
 }
@@ -93,5 +107,6 @@ export default {
     GetAllUsers: GetAllUsers,
     AddUser: AddUser,
     AddAnimal: AddAnimal,
+    GetAllAnimals: GetAllAnimals,
     AddEnclosure: AddEnclosure
 };

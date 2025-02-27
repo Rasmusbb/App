@@ -12,23 +12,32 @@
     let showModal = false;
     let ListHeadData = {
                 Value1: "Navn",
-                Value2: "Rolle",
+                Value2: "Fokus",
                 Value3: "Telefon",
-                Value4: "fokus"
+                Value4: "Rolle"
     }
     const toggleModal = () =>{
         showModal = !showModal
     }
     let User    
     let Users
+
+    function formatName(fullName) {
+        let parts = fullName.split(" "); 
+        let firstName = parts[0]; 
+        let lastInitial = parts.length > 1 ? parts[1][0] : ""; 
+        return `${firstName} ${lastInitial}`;
+    }
+
     async function GetUsers(){
         Users = await API["GetAllUsers"](localStorage.getItem("Token"))
-        console.log(localStorage.getItem("Token"))
+        Users.forEach(User => {
+            User.name = formatName(User.name)
+        });
     }
     onMount(() => {
         GetUsers()
         User = jwtDecode(localStorage.getItem("Token"))
-        console.log(User.Role)
 })
 
     
@@ -41,7 +50,7 @@
         <ListHeader ListHead={ListHeadData} />
         {#if User != null}
             {#each Users as user}  
-                <ListeCompGrid Data={user} />
+                <ListeCompGrid Data={{ name: user.name, Mainarea: user.mainArea, Phone: user.phone, Role: user.role}} />
             {/each}
             {#if User?.Role === "Admin"}  
                 <AddnewButton on:click={toggleModal} img="AddUser"></AddnewButton>
