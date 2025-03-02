@@ -1,13 +1,27 @@
 <script>
+	import ModalForm from "../componets/ModalForm.svelte";
 	import Header from '../componets/Header.svelte';
+	import {onMount} from "svelte";
 	import '../app.css';
+	import { logincheck } from "../Logic/LoginCheck.js";
+	let showLogin = $state(false);
 
 	let { children } = $props();
+	function ToogleLogin(event) {
+		showLogin = false;
+	}
+	onMount(() => {
+        showLogin = logincheck(localStorage.getItem("Token"));
+		if(showLogin) {
+			localStorage.removeItem("Token")
+		}
+    })
 </script>
 
 <div class="app">
 	<main>
 		{@render children()}
+		<ModalForm on:submit={ToogleLogin} modalType="Login", showModal={showLogin}></ModalForm>
 	</main>
 
 	<footer>

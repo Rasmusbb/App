@@ -1,5 +1,6 @@
 <script>
     import { onMount} from 'svelte';
+    import { goto } from '$app/navigation';
     import { jwtDecode } from "jwt-decode";
     import PictureList from '$lib/PictureList.js';
     import Footer from "../../componets/Footer.svelte"
@@ -16,6 +17,7 @@
                 Value3: "Telefon",
                 Value4: "Rolle"
     }
+
     const toggleModal = () =>{
         showModal = !showModal
     }
@@ -30,11 +32,18 @@
     }
 
     async function GetUsers(){
-        Users = await API["GetAllUsers"](localStorage.getItem("Token"))
-        Users.forEach(User => {
-            User.name = formatName(User.name)
-        });
+        let Token = localStorage.getItem("Token")
+        if(API["JWTVaild"](Token)){
+            Users = await API["GetAllUsers"](Token)
+            console.log(200);
+            Users.forEach(User => {
+                User.name = formatName(User.name)
+            });
+            return
+        }
+        goto("/")
     }
+
     onMount(() => {
         GetUsers()
         User = jwtDecode(localStorage.getItem("Token"))

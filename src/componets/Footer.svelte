@@ -9,7 +9,7 @@
 <footer>
     <nav>
         <ul>
-            <a href="/Home">
+            <a href="/">
                 <img  src={page.url.pathname === '/Home' ?  PictureList.Home: PictureListInv.Home} alt="Home"/>
             </a>
 

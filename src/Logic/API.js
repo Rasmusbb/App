@@ -1,24 +1,28 @@
 
-
+import { jwtDecode } from "jwt-decode";
 let API = import.meta.env.VITE_PUBLIC_API_URL;
 
 //UserController
 async function Login(LoginData) {
-  try {
     const response = await fetch(API + `/User/Login?Email=${LoginData.Email}&Password=${LoginData.Password}`, {
       method: 'GET'
     });
     if (!response.ok) {
-      throw new Error(response.status);
+      return null; 
     }
-
-    console.log(await response.text);
     return await response.text();
-  } catch (error) {
-    console.error('Error during login:', error);
-    return null; // Or handle the error as needed
   }
-}
+
+  function ChangePassword(UserPas,Token) {
+    let Data = fetch(API + '/User/ChangeUserPassword', {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${Token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(UserPas) 
+    }).then(res => res.json());
+  }
 
 
 async function GetUser (UserID,Token) {
@@ -34,12 +38,12 @@ async function GetUser (UserID,Token) {
 
 
 async function GetAllUsers (Token) {
-  let Data = await fetch(API + '/User/GetAllUsers',{
+    let Data = await fetch(API + '/User/GetAllUsers',{
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${Token}`,
         'Content-Type': 'application/json'
-    }
+    },
   }).then(res => res.json());
   return Data;
 }
@@ -74,7 +78,9 @@ async function AddAnimal(AnimalData,Token) {
 }
 
 async function GetAllAnimals(Token) {
-  let Data = await fetch(API + '/Animal/GetAllAnimals',{
+  let Data = {};
+  let Status = 0;
+  Data = await fetch(API + '/Animal/GetAllAnimals',{
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${Token}`,
@@ -82,13 +88,13 @@ async function GetAllAnimals(Token) {
     }
 }
   ).then(res => res.json());
+  Status = 200;
   return Data;
 }
 
 
 //EnclosureController
 async function AddEnclosure(EnclosureData,Token) {
-  console.log(EnclosureData);
   let Data = await fetch(API + '/Enclosure/AddEnclosure', {
     method: 'POST',
     headers: {
@@ -100,6 +106,16 @@ async function AddEnclosure(EnclosureData,Token) {
   return Data;  
 }
 
+function JWTVaild(Token){
+  let now = Math.floor(Date.now() / 1000);
+  let decoded = jwtDecode(Token);
+  if(decoded.exp < now) {
+    return false;
+  }
+  return true;
+}
+
+
 
 export default {
     Login:  Login,
@@ -108,5 +124,7 @@ export default {
     AddUser: AddUser,
     AddAnimal: AddAnimal,
     GetAllAnimals: GetAllAnimals,
-    AddEnclosure: AddEnclosure
+    AddEnclosure: AddEnclosure,
+    ChangePassword: ChangePassword,
+    JWTVaild: JWTVaild
 };

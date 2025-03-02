@@ -5,9 +5,9 @@
     import AddnewButton from '../../componets/AddnewButton.svelte';
     import ModalForm from "../../componets/ModalForm.svelte";
     import { onMount } from "svelte"
+    import API from "../../Logic/API.js"
     import ListeCompGrid from '../../componets/ListeCompGrid.svelte';
     import { jwtDecode } from "jwt-decode";
-    import API from "../../Logic/API.js"
     import ListHeader from "../../componets/ListHeader.svelte";
     import { createEventDispatcher } from 'svelte';
   import AddEnclosure from "../../componets/Forms/AddEnclosure.svelte";
@@ -24,20 +24,21 @@
 
     function AddAnimal(event){
         event.preventDefault()
-        console.log(event.detail)
         API["AddAnimal"](event.detail, localStorage.getItem("Token"));
     }
 
     function GetAllAnimals(){
         API["GetAllAnimals"]().then((data) => {
             Animals = data
-            console.log(Animals[0])
         })
     }
     let User    
     onMount(() => {
         GetAllAnimals()
-        User = jwtDecode(localStorage.getItem("Token"))
+        try {
+            User = jwtDecode(localStorage.getItem("Token"))
+        } catch (error) {
+        }
 
 })
 </script>

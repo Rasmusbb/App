@@ -44,7 +44,7 @@
         <label for="deadday">DødsDato:</label>
         <input id="deadday" type="date">
     {/if}
-    <button type="submit" class="submit-btn">Add Animal</button>
+    <button type="submit" class="submit-btn">Tilføj Dyr</button>
 </form>
 
 
