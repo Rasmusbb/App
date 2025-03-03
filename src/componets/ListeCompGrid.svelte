@@ -1,11 +1,16 @@
 <script>
-import PictureList from '$lib/PictureList.js';
-export let Data = {};
+  import PictureList from '$lib/PictureList.js';
+  export let Data = {};
+  export let ID = "";  
+  import { createEventDispatcher} from 'svelte';
+    const dispatch = createEventDispatcher();
+    function OnClick(){
+        dispatch('click', ID);
+    }
+
 </script>
 
-
-
-<div class="ListeComp">
+<button on:click={OnClick} class="ListeComp">
     {#each Object.entries(Data) as [key, value]}
       <div class="info">
         {#if key === "Role" && PictureList[value] || key==="gender" && PictureList[value]}
@@ -15,7 +20,7 @@ export let Data = {};
         {/if}
       </div>
     {/each}
-  </div>
+</button>
   
 
 

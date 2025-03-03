@@ -11,11 +11,15 @@
 		showLogin = false;
 	}
 	onMount(() => {
-        showLogin = logincheck(localStorage.getItem("Token"));
-		if(showLogin) {
-			localStorage.removeItem("Token")
+		try{
+			showLogin = logincheck(localStorage.getItem("Token"));
+			if(showLogin) {
+				localStorage.removeItem("Token")
+			}
+		}catch{
+			showLogin = true
 		}
-    })
+	})
 </script>
 
 <div class="app">

@@ -1,26 +1,26 @@
 <script>
 	let Data = {}
-	async function SubmitUser(event) {
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+    async function SubmitUser(event) {
 		event.preventDefault()
-		console.log(event)
-		//User = AddUser()
-		if (Token != null) {
-			localStorage.setItem("Token", Token);
-			goto("/Home")
-		}else{
-			console.log("Login failed")
-			loginfailed = true;
-		}
-  	}
+        dispatch("submit",Data);
+    }
 </script>
 
 <form on:submit={SubmitUser}>
     <label for="name">BrugerNavn:</label>
     <input bind:value={Data.Name} id="name" type="text">
 	<label for="email">Email:</label>
-	<input bind:value={Data.email} id="name" type="text">
+	<input bind:value={Data.Email} id="name" type="text">
+	<label for="email">Email:</label>
+	<select bind:value={Data.Role} id="name" type="text">
+        <option value="Admin">Adminstrator</option>
+        <option value="ZooKeeper">DyrePasser</option>    
+        <option value="Vet" >Dyrlæge</option>
+    </select>
     <label for="size">Password:</label>
-    <input bind:value={Data.password} id="name" type="text">
+    <input bind:value={Data.Password} id="name" type="Password">
     <button type="submit" class="submit-btn">Tilføj</button>
 </form>
 
@@ -37,7 +37,7 @@ form{
     border-radius: 10px;
 }
 
-label {
+label,select {
     font-size: 16px;
     font-weight: bold;
     max-width: 90%;

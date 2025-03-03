@@ -9,10 +9,13 @@
 	async function SubmitLogin(event) {
 		event.preventDefault()
         if (Data.Password == RepeatedPassword) {
-            Data.UserID = jwtDecode(localStorage.getItem("Token")).UserID
-            await API["ChangePassword"](Data)
-            Data.Email = jwtDecode(localStorage.getItem("Token")).Email
-            await localStorage.setItem("Token", await API["Login"](Data))
+            let Token = localStorage.getItem("Token");
+            Data.UserID = jwtDecode(Token).UserID
+            await API["ChangePassword"](Data,Token)
+            Data.Email = jwtDecode(Token).Email
+            Token = await API["Login"](Data)
+            localStorage.setItem("Token", Token);
+            dispatch("submit");
         } else{
             passwordFailed = true
         }
@@ -21,7 +24,7 @@
 
 <form on:submit={SubmitLogin}>
     <h1>Nyt Kodeord</h1>
-    <label for="password">Kodeord:</label>
+    <label for="password">Nyt Kodeord:</label>
     <input bind:value={Data.Password} type="password">
 
     <label for="password">Gentag Kodeord:</label>

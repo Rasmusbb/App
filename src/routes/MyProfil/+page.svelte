@@ -1,21 +1,22 @@
 
 <script>
-  import { json } from "@sveltejs/kit"
-  import UserProfil from "../../componets/UserProfil.svelte"
-  import Footer from "../../componets/Footer.svelte"
-  import { onMount } from "svelte"
+    import { jwtDecode } from "jwt-decode";
+    import { json } from "@sveltejs/kit"
+    import UserProfil from "../../componets/UserProfil.svelte"
+    import Footer from "../../componets/Footer.svelte"
+    import { onMount } from "svelte"
 
 
-    let user
+    let User
     onMount(() => {
-        user = JSON.parse(localStorage.getItem("user"))
-        console.log(user)
-
+        User = jwtDecode(localStorage.getItem("Token"))
     })
 </script>
 
 <div class="main">
-    <UserProfil></UserProfil>
+    {#if User != null}
+        <UserProfil User={User}></UserProfil>
+    {/if}
     <Footer />
 </div>
 

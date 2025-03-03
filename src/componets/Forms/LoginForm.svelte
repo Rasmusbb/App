@@ -12,21 +12,25 @@
 	async function SubmitLogin(event) {
 		event.preventDefault()
         let Token = await API["Login"](Data)
-		if (Token != null) {
 			localStorage.setItem("Token", Token);
             try {
                 User = jwtDecode(Token);
-            } catch (error) {}
-            if(!User.changedDefault){
-                changedDefault = true;
-            }else{
-                dispatch("submit");
+                if(!User.ChangeDefault){
+                    changedDefault = true;
+                }   
+                else{
+                    dispatch("submit");
+                } 
+            } catch{
+                console.log("Login failed")
+			    loginfailed = true;
             }
-		}else{
-			console.log("Login failed")
-			loginfailed = true;
-		}
   	}
+
+    async function SubmitPas (event) {
+        event.preventDefault()
+        dispatch("submit");
+    }
 </script>
 {#if changedDefault == false}
     <form on:submit={SubmitLogin}>
@@ -41,7 +45,7 @@
         <button type="submit" class="submit-btn">Login</button>
     </form>
 {:else}
-    <NewPassword></NewPassword>
+    <NewPassword on:submit={SubmitPas}></NewPassword>
 {/if}
 
 

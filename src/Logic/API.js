@@ -14,6 +14,7 @@ async function Login(LoginData) {
   }
 
   function ChangePassword(UserPas,Token) {
+    console.log(Token);
     let Data = fetch(API + '/User/ChangeUserPassword', {
       method: 'PUT',
       headers: {
