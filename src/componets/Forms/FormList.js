@@ -3,6 +3,7 @@ import AddEnclosure from './AddEnclosure.svelte';
 import AddUser from './AddUser.svelte';
 import Login from './LoginForm.svelte'; 
 import NewPassword from './NewPassword.svelte';
+import AssingForm from './AssingForm.svelte'
 
 
 export default {
@@ -10,5 +11,6 @@ export default {
     AddEnclosure: AddEnclosure,
     AddUser: AddUser,
     newpassword: NewPassword,  
-    Login: Login    
+    Login: Login,
+    AssingForm: AssingForm
 };

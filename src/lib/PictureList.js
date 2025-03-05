@@ -10,6 +10,7 @@ import AddAnimal from '$lib/images/AddAnimal.png'
 import Female from '$lib/images/Female.png'
 import Male from '$lib/images/Male.png'
 import Bigender from '$lib/images/Bigender.png'
+import Leftarrow from '$lib/images/leftarrow.png'
 
 export default {
     Paw: Paw,
@@ -23,5 +24,6 @@ export default {
     AddAnimal: AddAnimal,
     Female: Female,
     Male: Male,
-    Bigender: Bigender  
+    Bigender: Bigender,
+    Leftarrow: Leftarrow
 };

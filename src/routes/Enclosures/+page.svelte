@@ -20,7 +20,7 @@
     {#each Enclosures as Enclosures}  
         <ListeCompGrid Data={ennclosure} />
     {/each}
-    {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}  
+    {#if User?.role === "Admin" || User?.role == "ZooKeeper"}  
         <AddnewButton  on:click={toggleModal} img="Fence"/>
     {/if} 
 </div>

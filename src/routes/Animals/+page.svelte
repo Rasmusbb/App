@@ -48,7 +48,7 @@
         {#each Animals as Animal}
         <ListeCompGrid Data={{ name: Animal.name, Enclosure: Animal.Enclosure, physicalID: Animal.physicalID, gender: Animal.gender }} />
     {/each}
-    {#if User?.Role === "Admin" || User?.Role == "ZooKeeper"}
+    {#if User?.role === "Admin" || User?.role == "ZooKeeper"}
         <AddnewButton on:click={showModal = !showModal} img="AddAnimal"/>
     {/if}   
 </div>

@@ -15,7 +15,7 @@
 
 <div class="main">
     {#if User != null}
-        <UserProfil User={User}></UserProfil>
+        <UserProfil  UserProfilData={User}></UserProfil>
     {/if}
     <Footer />
 </div>

@@ -15,7 +15,7 @@
 			localStorage.setItem("Token", Token);
             try {
                 User = jwtDecode(Token);
-                if(!User.ChangeDefault){
+                if(!User.changeDefault){
                     changedDefault = true;
                 }   
                 else{
@@ -36,9 +36,9 @@
     <form on:submit={SubmitLogin}>
         <h1>Login</h1>
         <label for="text">E-mail:</label>
-        <input bind:value={Data.Email} type="text">
+        <input bind:value={Data.email} type="text">
         <label for="password">Password:</label>
-        <input bind:value={Data.Password} type="password">
+        <input bind:value={Data.password} type="password">
         {#if loginfailed == true}
             <p style="color: red;">Wrong password or Email</p>
         {/if}

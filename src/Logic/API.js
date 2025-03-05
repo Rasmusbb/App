@@ -4,7 +4,7 @@ let API = import.meta.env.VITE_PUBLIC_API_URL;
 
 //UserController
 async function Login(LoginData) {
-    const response = await fetch(API + `/User/Login?Email=${LoginData.Email}&Password=${LoginData.Password}`, {
+    const response = await fetch(API + `/User/Login?Email=${LoginData.email}&Password=${LoginData.password}`, {
       method: 'GET'
     });
     if (!response.ok) {
@@ -36,6 +36,15 @@ async function GetUser (UserID,Token) {
   return Data;
 }
 
+async function GetUserEnclosures (UserID,oppesite,Token) {
+  let Data = await fetch(API + '/User/GetUserEnclosures?UserID=' + UserID,{
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${Token}`,
+    }
+  }).then(res => res.json);
+  return Data;
+}
 
 
 async function GetAllUsers (Token) {
@@ -107,6 +116,42 @@ async function AddEnclosure(EnclosureData,Token) {
   return Data;  
 }
 
+async function AddStaffToEnclosure(EnclosureData,Token) {
+  let Data = await fetch(API + '/Enclosure/AddEnclosure', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${Token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(EnclosureData)
+  }).then(res => res.json());
+  return Data;  
+}
+
+
+async function GetAllEnclosures (Token) {
+  let Data = await fetch(API + '/User/GetAllUsers',{
+  method: 'GET',
+  headers: {
+      'Authorization': `Bearer ${Token}`,
+      'Content-Type': 'application/json'
+  },
+}).then(res => res.json());
+return Data;
+}
+
+async function AddAnimalToEnclosure(AssingData,Token) {
+  let Data = await fetch(API + '/Enclosure/AddStaffToEncloure', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${Token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(AssingData)
+  }).then(res => res.json());
+  return Data;  
+}
+
 function JWTVaild(Token){
   let now = Math.floor(Date.now() / 1000);
   let decoded = jwtDecode(Token);
@@ -127,5 +172,8 @@ export default {
     GetAllAnimals: GetAllAnimals,
     AddEnclosure: AddEnclosure,
     ChangePassword: ChangePassword,
+    AddStaffToEnclosure: AddStaffToEnclosure,
+    GetUserEnclosures: GetUserEnclosures,
+    AddAnimalToEnclosure: AddAnimalToEnclosure,
     JWTVaild: JWTVaild
 };

@@ -8,11 +8,11 @@
     const dispatch = createEventDispatcher();
 	async function SubmitLogin(event) {
 		event.preventDefault()
-        if (Data.Password == RepeatedPassword) {
+        if (Data.password == RepeatedPassword) {
             let Token = localStorage.getItem("Token");
-            Data.UserID = jwtDecode(Token).UserID
+            Data.UserID = jwtDecode(Token).userID
             await API["ChangePassword"](Data,Token)
-            Data.Email = jwtDecode(Token).Email
+            Data.Email = jwtDecode(Token).email
             Token = await API["Login"](Data)
             localStorage.setItem("Token", Token);
             dispatch("submit");
@@ -25,7 +25,7 @@
 <form on:submit={SubmitLogin}>
     <h1>Nyt Kodeord</h1>
     <label for="password">Nyt Kodeord:</label>
-    <input bind:value={Data.Password} type="password">
+    <input bind:value={Data.password} type="password">
 
     <label for="password">Gentag Kodeord:</label>
     <input bind:value={RepeatedPassword} type="password">

@@ -41,7 +41,6 @@
                 UserProfilData = user
             }
         });
-        console.log(UserProfilData)
         showUserProfil = true
     }
   
@@ -90,7 +89,7 @@
         </div>    
     </div>
 {:else}
-    <UserProfil User={UserProfil}></UserProfil>
+    <UserProfil on:close={showUserProfil = false} Backarrow={showUserProfil} UserProfilData={UserProfilData}></UserProfil>
 {/if}
 <Footer />
 <style>

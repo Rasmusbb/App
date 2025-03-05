@@ -2,48 +2,82 @@
     import UserProfil from '$lib/images/UserProfil.png';
     import PictureList from '$lib/PictureList.js';
     import { onMount } from 'svelte';
-
-    export let User;
+    import API from '../Logic/API.js'
+    import { jwtDecode } from "jwt-decode";
+    import { createEventDispatcher } from 'svelte'; 
+    import ModalForm from './ModalForm.svelte';
+    const dispatch = createEventDispatcher();
+    let showModal = false
+    export let Backarrow = false;   
+    export let UserProfilData;
+    let User = {};
+    let Enclosures = []
     function copyLink(value) {
         navigator.clipboard.writeText(value);
     }
+
+    async function GetALLUserEnclosures()
+    {
+        Enclosures = await API["GetUserEnclosures"](UserProfilData.userID,false,localStorage.getItem("Token"))
+    }
+    async function AddEnclosureToUser(event){
+        Data = {
+            userID: UserProfilData.userID,
+            EnclosuresID: event.details
+        }
+        console.log(Data)
+        await API["AddStaffToEnclosure"]()
+    }
+ 
     onMount(() => {
-        console.log(User)
+        if(UserProfilData.role == "ZooKeeper"){
+            GetALLUserEnclosures()
+
+        }
+        User = jwtDecode(localStorage.getItem("Token")); 
     })
 </script>
 
+<ModalForm on:submit={AddEnclosureToUser} modalType="AssingForm", showModal={showModal}></ModalForm>
 <div class="profile-header">
-    <h1 class="user-name">{User.Name}</h1>
+    {#if Backarrow}
+        <img src={PictureList["Leftarrow"]} class="arrow" alt="Back" on:click={() => {dispatch("close")}} style="cursor: pointer;">
+    {/if}
+
+    <h1 class="user-name">{UserProfilData.name}</h1>
     <img src="{UserProfil}" alt="Profile" class="profile-img">
 </div>
 
 <!-- Contact Box -->
-{#if User}
+{#if UserProfilData}
     <div class="contact-box">
         <h2>Bruger Oplysninger</h2>
         <div class="info">
-            <button on:click={() => copyLink(User.Email)} class="copy-button">
-                E-mail: {User.Email}
+            <button on:click={() => copyLink(UserProfilData.email)} class="copy-button">
+                E-mail: {UserProfilData.email}
             </button>
 
-            <button on:click={() => copyLink(User.Phone)} class="copy-button">
-                Mobil: {User.Phone}
+            <button on:click={() => copyLink(UserProfilData.phone)} class="copy-button">
+                Mobil: {UserProfilData.phone ?? "Ingen nummer"}   
             </button>
 
-            <button on:click={() => copyLink(User.Role)} class="copy-button">
-                Rolle: {User.Role}
+            <button on:click={() => copyLink(UserProfilData.role)} class="copy-button">
+                Rolle: {UserProfilData.role}
             </button>
         </div>
     </div>
 
-    {#if User.Role === "ZooKeeper"}
+    {#if UserProfilData.role === "ZooKeeper"}
         <div class="contact-box">
             <h2>Anlæg</h2>
-            <div class="info">
-                <button on:click={() => copyLink(User.Email)} class="addEnclosure">
-                    Tilføj anlæg
-                </button>
-            </div>
+
+            {#if User.role == "Admin"}
+                <div class="info">
+                    <button class="addEnclosure" on:click={() => showModal = !showModal}>
+                        Tilføj anlæg
+                    </button>
+                </div>
+            {/if}
         </div>
     {/if}
 {/if}
@@ -73,6 +107,12 @@
         height: 4em;
         border-radius: 50%;
         object-fit: cover;
+    }
+    .arrow{
+        position: absolute;
+        left : 1em; 
+        width: 3em;
+        height: 3em;
     }
 
 
