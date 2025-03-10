@@ -11,6 +11,7 @@ import Female from '$lib/images/Female.png'
 import Male from '$lib/images/Male.png'
 import Bigender from '$lib/images/Bigender.png'
 import Leftarrow from '$lib/images/leftarrow.png'
+import Edited from '$lib/images/Edited.png'
 
 export default {
     Paw: Paw,
@@ -25,5 +26,6 @@ export default {
     Female: Female,
     Male: Male,
     Bigender: Bigender,
-    Leftarrow: Leftarrow
+    Leftarrow: Leftarrow,
+    Edited: Edited
 };

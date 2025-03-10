@@ -1,5 +1,5 @@
 {
-  "appId": "com.Zoo",
-  "appName": "ZooManager",
+  "appId": "com.zoo",
+  "appName": "app",
   "webDir": "build"
 }

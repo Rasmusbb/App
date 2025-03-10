@@ -8,7 +8,7 @@ async function Login(LoginData) {
       method: 'GET'
     });
     if (!response.ok) {
-      return null; 
+      return console.log(response); 
     }
     return await response.text();
   }
