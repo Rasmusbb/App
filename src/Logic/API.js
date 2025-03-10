@@ -14,7 +14,6 @@ async function Login(LoginData) {
   }
 
   function ChangePassword(UserPas,Token) {
-    console.log(Token);
     let Data = fetch(API + '/User/ChangeUserPassword', {
       method: 'PUT',
       headers: {
@@ -31,32 +30,45 @@ async function GetUser (UserID,Token) {
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${Token}`,
-    }
-  }).then(res => res.json);
-  return Data;
-}
-
-async function GetUserEnclosures (UserID,oppesite,Token) {
-  let Data = await fetch(API + '/User/GetUserEnclosures?UserID=' + UserID,{
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${Token}`,
-    }
-  }).then(res => res.json);
-  return Data;
-}
-
-
-async function GetAllUsers (Token) {
-    let Data = await fetch(API + '/User/GetAllUsers',{
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${Token}`,
         'Content-Type': 'application/json'
-    },
+    }
   }).then(res => res.json());
   return Data;
 }
+
+async function GetUsersEnclosures(UserID, oppesite, Token) {
+  console.log(UserID);
+  let Data = await fetch(API + `/User/GetUserEnclosures?UserID=${UserID}&oppsitse=${oppesite}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${Token}`,
+      'Content-Type': 'application/json',
+    }
+  })
+  .then(res => res.json()); // Make sure to call res.json() here, not just return the function
+
+  return Data;
+}
+
+
+
+async function GetAllUsers(Token) {
+  try{
+
+    let response = await fetch(API + '/User/GetAllUsers', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${Token}`,
+            'Content-Type': 'application/json'
+        },
+    });
+    let data = await response.json();
+    return data;
+  }catch{
+    return null
+  }
+}
+
 
 
 
@@ -105,15 +117,19 @@ async function GetAllAnimals(Token) {
 
 //EnclosureController
 async function AddEnclosure(EnclosureData,Token) {
-  let Data = await fetch(API + '/Enclosure/AddEnclosure', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${Token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(EnclosureData)
-  }).then(res => res.json());
-  return Data;  
+  try{
+    let Data = await fetch(API + '/Enclosure/AddEnclosure', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(EnclosureData)
+    }).then(res => res.json());
+    return Data;  
+  }catch{
+    return null
+  }
 }
 
 async function AddStaffToEnclosure(EnclosureData,Token) {
@@ -130,14 +146,19 @@ async function AddStaffToEnclosure(EnclosureData,Token) {
 
 
 async function GetAllEnclosures (Token) {
-  let Data = await fetch(API + '/User/GetAllUsers',{
-  method: 'GET',
-  headers: {
-      'Authorization': `Bearer ${Token}`,
-      'Content-Type': 'application/json'
-  },
-}).then(res => res.json());
-return Data;
+  try{
+    let Data = await fetch(API + '/Enclosure/GetAllEnclosure',{
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${Token}`,
+        'Content-Type': 'application/json'
+    },
+  }).then(res => res.json());
+  return Data;
+
+  }catch{
+    return null
+  }
 }
 
 async function AddAnimalToEnclosure(AssingData,Token) {
@@ -154,7 +175,12 @@ async function AddAnimalToEnclosure(AssingData,Token) {
 
 function JWTVaild(Token){
   let now = Math.floor(Date.now() / 1000);
-  let decoded = jwtDecode(Token);
+  let decoded = {}
+  try{
+    decoded = jwtDecode(Token);
+  }catch{
+    return true
+  }
   if(decoded.exp < now) {
     return false;
   }
@@ -173,7 +199,8 @@ export default {
     AddEnclosure: AddEnclosure,
     ChangePassword: ChangePassword,
     AddStaffToEnclosure: AddStaffToEnclosure,
-    GetUserEnclosures: GetUserEnclosures,
+    GetUsersEnclosures: GetUsersEnclosures,
+    GetAllEnclosures: GetAllEnclosures,
     AddAnimalToEnclosure: AddAnimalToEnclosure,
     JWTVaild: JWTVaild
 };

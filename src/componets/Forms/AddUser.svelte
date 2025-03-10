@@ -17,7 +17,7 @@
 	<select bind:value={Data.Role} id="name" type="text">
         <option value="Admin">Adminstrator</option>
         <option value="ZooKeeper">DyrePasser</option>    
-        <option value="Vet" >Dyrlæge</option>
+        <option value="Veterinarian" >Dyrlæge</option>
     </select>
     <label for="size">Password:</label>
     <input bind:value={Data.Password} id="name" type="Password">

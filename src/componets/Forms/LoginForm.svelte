@@ -2,33 +2,41 @@
     import { jwtDecode } from "jwt-decode";
     import API from '/src/Logic/API.js';
     import { createEventDispatcher } from 'svelte';
-
+    import { goto } from "$app/navigation";
     import NewPassword from './NewPassword.svelte';
 	let Data = {}
     let changedDefault = false
     let User = {}
     let loginfailed = false 
     const dispatch = createEventDispatcher();
+
+    function ToogleLogin() {
+        goto(window.location.pathname, { replaceState: true });
+	}
 	async function SubmitLogin(event) {
 		event.preventDefault()
-        let Token = await API["Login"](Data)
-			localStorage.setItem("Token", Token);
+        let Token = await API["Login"](Data)    
             try {
+                localStorage.setItem("Token", Token);
                 User = jwtDecode(Token);
-                if(!User.changeDefault){
+                console.log(User)
+                if(User.changeDefault == "False"){
                     changedDefault = true;
+                    console.log("You should change password")
                 }   
                 else{
-                    dispatch("submit");
+                    dispatch("submit")
                 } 
-            } catch{
-                console.log("Login failed")
+            } catch(error){
+                console.log(error)
 			    loginfailed = true;
             }
   	}
 
     async function SubmitPas (event) {
         event.preventDefault()
+        let Token = await API["Login"](Data)
+        localStorage.setItem("Token", Token);
         dispatch("submit");
     }
 </script>

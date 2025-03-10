@@ -4,6 +4,15 @@
     import PictureList from '$lib/PictureList.js';
     import PictureListInv from '$lib/PictureListInv';
 	import UserProfil from '$lib/images/UserProfil.png';
+    import { onMount } from 'svelte';
+
+
+
+	onMount(() => {
+
+	})
+
+	
 </script>
 
 <footer>

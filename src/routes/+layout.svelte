@@ -1,14 +1,20 @@
 <script>
 	import ModalForm from "../componets/ModalForm.svelte";
+	import Footer from "../componets/Footer.svelte";
 	import Header from '../componets/Header.svelte';
 	import {onMount} from "svelte";
 	import '../app.css';
 	import { logincheck } from "../Logic/LoginCheck.js";
+    import { goto } from "$app/navigation";
 	let showLogin = $state(false);
 
 	let { children } = $props();
-	function ToogleLogin(event) {
+	function ToogleLogin() {
 		showLogin = false;
+		let page = window.location.pathname
+		goto("/").then(() => {
+			goto(page)
+		})
 	}
 	onMount(() => {
 		try{
@@ -25,11 +31,11 @@
 <div class="app">
 	<main>
 		{@render children()}
-		<ModalForm on:submit={ToogleLogin} modalType="Login", showModal={showLogin}></ModalForm>
+		
 	</main>
-
+	
 	<footer>
-
+		<Footer />
 	</footer>
 </div>
 

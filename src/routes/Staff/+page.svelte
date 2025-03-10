@@ -1,5 +1,6 @@
 <script>
     import { onMount} from 'svelte';
+
     import { goto } from '$app/navigation';
     import { jwtDecode } from "jwt-decode";
     import PictureList from '$lib/PictureList.js';
@@ -13,6 +14,7 @@
     import { preventDefault } from 'svelte/legacy';
     import UserProfil from '../../componets/UserProfil.svelte';
     let showModal = false;
+    let showLogin = false;
     let UserProfilData = {}
     let showUserProfil = false;
     let ListHeadData = {
@@ -26,12 +28,12 @@
         showModal = !showModal
     }
     let User    
-    let Users
+    let Users = []
 
     function AddnewUser(event){
         event.preventDefault()
-        toggleModal()
         API["AddUser"](event.detail, localStorage.getItem("Token"))
+        toggleModal()
         GetUsers()
     }  
 
@@ -55,19 +57,29 @@
     async function GetUsers(){
         let Token = localStorage.getItem("Token")
         if(API["JWTVaild"](Token)){
-            Users = await API["GetAllUsers"](Token)
-            console.log(200);
+            API["GetAllUsers"](Token).then((data) => {
+                if(data == null){
+                    showLogin = true
+                }
+                Users = data
+            })
             Users.forEach(User => {
                 User.name = formatName(User.name)
             });
             return
         }
-        goto("/")
     }
-
-    onMount(() => {
+    async function Startup(){
+        showLogin = false
         GetUsers()
-        User = jwtDecode(localStorage.getItem("Token"))
+        try {
+            User = jwtDecode(localStorage.getItem("Token"))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    onMount(() => {
+        Startup();
         
 })
 
@@ -76,13 +88,14 @@
 {#if !showUserProfil }
     <div class="StaffList">
         <div class="Staff">
+            <ModalForm on:submit={Startup} modalType="Login", showModal={showLogin}></ModalForm>
             <ModalForm on:submit={AddnewUser} modalType="AddUser", showModal={showModal}></ModalForm>
             <ListHeader ListHead={ListHeadData} />
             {#if User != null}
                 {#each Users as user}  
                     <ListeCompGrid on:click={GetUserProfil} ID={user.userID} Data={{ name: user.name, Mainarea: user.mainArea, Phone: user.phone, Role: user.role}} />
                 {/each}
-                {#if User?.Role === "Admin"}  
+                {#if User?.role === "Admin"}  
                     <AddnewButton on:click={toggleModal} img="AddUser"></AddnewButton>
                 {/if}
             {/if}
@@ -91,7 +104,7 @@
 {:else}
     <UserProfil on:close={showUserProfil = false} Backarrow={showUserProfil} UserProfilData={UserProfilData}></UserProfil>
 {/if}
-<Footer />
+
 <style>
     .Staff {
             display: flex;

@@ -1,24 +1,25 @@
 <script>
-    import API from '/src/Logic/API.js';
     import { onMount } from 'svelte';
-    export let Data = {}
-    let Enclosures = []
-    let SelEnclosure = ""
+    import API from '/src/Logic/API.js';
+    let SelEnclosure = "Vælg anlæg"
     import { createEventDispatcher } from 'svelte';
-  import UserProfil from '../UserProfil.svelte';
+    import UserProfil from '../UserProfil.svelte';
     const dispatch = createEventDispatcher();
+    let Enclosures = []
+    function GetAllEnclosures(){
+        API["GetAllEnclosures"](localStorage.getItem("Token")).then((data) => {
+            Enclosures = data
+            console.log(data)
+        })
+    }
+
     async function SubmitData(event) {
 		event.preventDefault()
-        dispatch("submit");
-    }
-    async function GetALLUserEnclosures()
-    {
-        Enclosures = await API["GetUserEnclosures"](UserProfilData.userID,true,localStorage.getItem("Token"))
+        dispatch("submit",SelEnclosure);
     }
     onMount(() => {
-
-        console.log(Enclosures[0])
-    })
+        GetAllEnclosures()
+        })
 
 </script>
 
@@ -27,7 +28,7 @@
     <label for="Enclosures">Enclosures:</label>
     <select bind:value={SelEnclosure}>
         {#each Enclosures as Enclosure}
-            <option value={Enclosure}>{Enclosure.EnclosureName}</option>
+            <option value={Enclosure.enclosureID}>{Enclosure.enclosureName}</option>
         {/each}
     </select>
     <button type="submit" class="submit-btn">Tilføj</button>
@@ -51,16 +52,6 @@ label {
     font-weight: bold;
     max-width: 90%;
 }
-
-/* Inputs and Select */
-input{
-    width: 90%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
 /* Submit Button */
 .submit-btn {
     padding: 10px;

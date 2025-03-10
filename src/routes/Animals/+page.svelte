@@ -10,7 +10,7 @@
     import { jwtDecode } from "jwt-decode";
     import ListHeader from "../../componets/ListHeader.svelte";
     import { createEventDispatcher } from 'svelte';
-  import AddEnclosure from "../../componets/Forms/AddEnclosure.svelte";
+    import AddEnclosure from "../../componets/Forms/AddEnclosure.svelte";
     const dispatch = createEventDispatcher();
     let showModal
     let Animals = {} 
@@ -25,6 +25,8 @@
     function AddAnimal(event){
         event.preventDefault()
         API["AddAnimal"](event.detail, localStorage.getItem("Token"));
+        showModal = !showModal
+        GetAllAnimals()
     }
 
     function GetAllAnimals(){
@@ -38,6 +40,7 @@
         try {
             User = jwtDecode(localStorage.getItem("Token"))
         } catch (error) {
+            console.log(error)
         }
 
 })
@@ -45,14 +48,14 @@
     <ModalForm on:submit={AddAnimal} modalType="AddAnimal", showModal={showModal} ></ModalForm>
     <div class="Body">
         <ListHeader ListHead={ListHeadData} />
-        {#each Animals as Animal}
+    {#each Animals as Animal}
         <ListeCompGrid Data={{ name: Animal.name, Enclosure: Animal.Enclosure, physicalID: Animal.physicalID, gender: Animal.gender }} />
     {/each}
     {#if User?.role === "Admin" || User?.role == "ZooKeeper"}
         <AddnewButton on:click={showModal = !showModal} img="AddAnimal"/>
     {/if}   
 </div>
-<Footer />
+
 
 <style>
     .Body {

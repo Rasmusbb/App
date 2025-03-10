@@ -6,8 +6,7 @@
     const dispatch = createEventDispatcher();
     async function SubmitData(event) {
 		event.preventDefault()
-        API["AddEnclosure"](Data, localStorage.getItem("Token"));
-        dispatch("submit");
+        dispatch("submit",Data);
     }
 </script>
 

@@ -3,35 +3,48 @@
     import PictureList from '$lib/PictureList.js';
     import { onMount } from 'svelte';
     import API from '../Logic/API.js'
-    import { jwtDecode } from "jwt-decode";
+    import { InvalidTokenError, jwtDecode } from "jwt-decode";
     import { createEventDispatcher } from 'svelte'; 
     import ModalForm from './ModalForm.svelte';
+    import EnclosureContainer from '../componets/EnclosureContainer.svelte';
     const dispatch = createEventDispatcher();
     let showModal = false
     export let Backarrow = false;   
     export let UserProfilData;
     let User = {};
     let Enclosures = []
+    let UserProfilEnclosures = []
     function copyLink(value) {
         navigator.clipboard.writeText(value);
     }
+    function GetAllEnclosures(){
+        API["GetAllEnclosures"](localStorage.getItem("Token")).then((data) => {
+            Enclosures = data
+            if(data == null){
+                showLogin = true
+            }
+        })
 
-    async function GetALLUserEnclosures()
-    {
-        Enclosures = await API["GetUserEnclosures"](UserProfilData.userID,false,localStorage.getItem("Token"))
+        API["GetUsersEnclosures"](UserProfilData.userID,false,localStorage.getItem("Token")).then((data) => {
+                UserProfilEnclosures = data
+                if(data == null){
+                    showLogin = true
+                }
+                console.log(data)
+        })
     }
+
     async function AddEnclosureToUser(event){
-        Data = {
+        let Data = {
             userID: UserProfilData.userID,
-            EnclosuresID: event.details
+            EnclosuresID: event.detail
         }
-        console.log(Data)
         await API["AddStaffToEnclosure"]()
     }
  
     onMount(() => {
         if(UserProfilData.role == "ZooKeeper"){
-            GetALLUserEnclosures()
+            GetAllEnclosures()
 
         }
         User = jwtDecode(localStorage.getItem("Token")); 
@@ -68,17 +81,7 @@
     </div>
 
     {#if UserProfilData.role === "ZooKeeper"}
-        <div class="contact-box">
-            <h2>Anlæg</h2>
-
-            {#if User.role == "Admin"}
-                <div class="info">
-                    <button class="addEnclosure" on:click={() => showModal = !showModal}>
-                        Tilføj anlæg
-                    </button>
-                </div>
-            {/if}
-        </div>
+        <EnclosureContainer User={UserProfilData} UserEnclosures={UserProfilEnclosures}></EnclosureContainer>
     {/if}
 {/if}
 <style>
@@ -166,7 +169,7 @@
         margin-top: 10px;
     }
     .addEnclosure:hover{
-        background-color: red;
+        background-color: #2ecc71;
     }
 
 </style>
