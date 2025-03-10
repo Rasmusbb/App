@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/state';
-	import logo from '$lib/images/ZooLogo.png';
     import PictureList from '$lib/PictureList.js';
     import PictureListInv from '$lib/PictureListInv';
 	import UserProfil from '$lib/images/UserProfil.png';

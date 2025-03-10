@@ -1,15 +1,11 @@
 <script>
 	import { page } from '$app/state';
-	import logo from '$lib/images/ZooLogo.png';
     import Animallist from '$lib/PictureList.js';
 	import UserProfil from '$lib/images/UserProfil.png';
 </script>
 
 <header>
 	<div class="corner">
-		<a href="https://svelte.dev/docs/kit">
-			<img src={logo} alt="AalborgZoo" width="10" height="10"/>
-		</a>
 	</div>
 
 	<nav>
