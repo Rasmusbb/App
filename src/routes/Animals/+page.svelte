@@ -74,8 +74,6 @@
     <AnimalProfil on:close={ShowProfil = false} Backarrow={ShowProfil} ProfilData={ProfilData}></AnimalProfil>
 {/if}
 
-<Footer />
-
 <style>
     .Body {
         display: flex;

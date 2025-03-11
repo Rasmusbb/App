@@ -45,7 +45,7 @@
 
 <!-- Contact Box -->
 {#if ProfilData}
-    <ContentBox ProfilData={ProfilData} User={User}></ContentBox>
+    <ContentBox ProfilData={ProfilData} Content="AnimalInfo" User={User}></ContentBox>
 {/if}
 <style>
     .profile-header {

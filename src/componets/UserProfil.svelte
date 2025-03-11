@@ -8,6 +8,7 @@
     import ModalForm from './ModalForm.svelte';
     import EnclosureContainer from '../componets/EnclosureContainer.svelte';
     const dispatch = createEventDispatcher();
+    import ContentBox from './ProfilComps/ContentBox.svelte';
     let showModal = false
     export let Backarrow = false;   
     export let UserProfilData;
@@ -63,23 +64,7 @@
 
 <!-- Contact Box -->
 {#if UserProfilData}
-    <div class="contact-box">
-        <h2>Bruger Oplysninger</h2>
-        <div class="info">
-            <button on:click={() => copyLink(UserProfilData.email)} class="copy-button">
-                E-mail: {UserProfilData.email}
-            </button>
-
-            <button on:click={() => copyLink(UserProfilData.phone)} class="copy-button">
-                Mobil: {UserProfilData.phone ?? "Ingen nummer"}   
-            </button>
-
-            <button on:click={() => copyLink(UserProfilData.role)} class="copy-button">
-                Rolle: {UserProfilData.role}
-            </button>
-        </div>
-    </div>
-
+    <ContentBox ProfilData={UserProfilData} Content="UserInfo" User={User}></ContentBox>
     {#if UserProfilData.role === "ZooKeeper"}
         <EnclosureContainer User={UserProfilData} UserEnclosures={UserProfilEnclosures}></EnclosureContainer>
     {/if}

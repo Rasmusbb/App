@@ -1,31 +1,119 @@
 <script>
     import PictureList from '$lib/PictureList.js';
+    import { onMount } from 'svelte';
     export let ProfilData = {}
     export let User = {}
+    let canEdit = false
+    let editProfilData = {}
+    let showedit = {}
+    let EditedProfil = {}
+
+    function copyLink(value) {
+        navigator.clipboard.writeText(value);
+    }
+
+    function Showedit(editbutton){
+        if (User.role == "ZooKeeper" || User.role == "Admin"){
+            switch(editbutton){
+                case "physicalID":
+                    showedit.physicalID = true
+                break;
+                case "age":
+                 showedit.age = true
+                break;
+
+                case "gender":
+                 showedit.gender = true
+                break;
+
+                case "specie":
+                    showedit.specie = true
+                break;
+            }
+            console.log("Edited allowed")
+        }else{
+            console.log("Edited not allowed")
+        }
+    }
+    function calculateAge(birthday){
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        return age;
+    }
+
+    function Startup(){
+        switch(ProfilData.gender){
+            case "Male":
+                ProfilData.gender = "Han"
+            break;
+            case "Female":
+                ProfilData.gender = "Hun"
+            break;
+            
+            default:
+                ProfilData.gender = "Intet køn"
+            break;
+        }
+        if (User.role == "ZooKeeper" || User.role == "Admin"){
+            canEdit = true
+        }
+        ProfilData.age = calculateAge(ProfilData.birthday)
+        
+    }
+    onMount(() => {
+        console.log(ProfilData)
+        Startup()
+        editProfilData = ProfilData
+    })
 </script>
 
 
 <div class="Header">
     <h2>Dyrets Oplysninger</h2>
-    {#if User.role == "Admin" || User.role == "ZooKeeper"}
-        <img src={PictureList["Edited"]}>
-    {/if}
 </div>
 <div class="info">
-     <button on:click={() => copyLink(ProfilData.physicalID)} class="copy-button">
-        Øremærke: {ProfilData.physicalID}
-    </button>
-
-    <button on:click={() => copyLink(ProfilData.Gender)} class="copy-button">
-        Køn: {ProfilData.gender === "Male" ? "Han" : ProfilData.gender === "Female" ? "Hun" : "intet køn"}
-    </button>
-
-    <button on:click={() => copyLink(ProfilData.specie)} class="copy-button">
-        Art: {ProfilData.specie}
-    </button>
-    <button on:click={() => copyLink(ProfilData.specie)} class="copy-button">
-        Anlæg: {ProfilData.enclosure}
-    </button>
+    <div class="button-container">
+        {#if showedit.physicalID}
+            <input class="button" bind:value={ProfilData.physicalID}/>
+        {:else}
+            <button on:click={Showedit("physicalID")} class="button">FysikID: {ProfilData.physicalID}</button>
+        {/if}
+            <button type="button" on:click={() => copyLink(ProfilData.physicalID)} class="copy-button">
+                <img src={PictureList["Copy"]} title="Kopier"  alt="Copy Icon" />
+            </button>
+    </div>
+    <div class="button-container">
+        <button on:click={() => copyLink(ProfilData.age)} class="button">Alder: {ProfilData.age} år</button>
+        <button type="button" class="copy-button">
+            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
+        </button>
+    </div>
+    <div class="button-container">
+        <button  class="button">Føselsdag: {ProfilData.birthday.split("T")[0]}</button>
+        <button type="button" class="copy-button">
+            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
+        </button>
+    </div>
+    <div class="button-container">
+        <button  class="button">Køn: {ProfilData.gender}</button>
+        <button type="button" class="copy-button">
+            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
+        </button>
+    </div>
+    <div class="button-container">
+        <button class="button">Art: {ProfilData.specie}</button>
+        <button type="button" class="copy-button">
+            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
+        </button>
+    
+    </div>
+    <div class="button-container">
+        <button on:click={() => copyLink(ProfilData.specie)} class="button">Anlæg: {ProfilData.enclosure}</button>
+        <button type="button" class="copy-button">
+            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
+        </button>
+    </div>
 </div>
 
 <style>
@@ -56,7 +144,20 @@
         width: 100%;
     }
 
-    .copy-button {
+    .button-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em; 
+    }
+
+    .copy-button{
+        background-color: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .button {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -71,11 +172,12 @@
         transition: background 0.3s ease;
     }
 
-    .copy-button:hover {
+    .button:hover {
         background: #0056b3;
     }
 
     img {
 		height: 1em;
+        width: 1em;
 	}
 </style>

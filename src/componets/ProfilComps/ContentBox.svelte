@@ -1,11 +1,14 @@
 
 <script>
     import ContentList from "./ContentList";
+    export let Content = ""
+    export let ProfilData = {}
+    export let User = {}
 </script>
 
 
 <div class="contact-box">
-    <svelte:component this={ContentList["AnimalInfo"]} />
+    <svelte:component ProfilData={ProfilData} User={User} this={ContentList[Content]} />
 </div>
 
 <style>
