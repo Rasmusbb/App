@@ -36,7 +36,6 @@
     function GetAllAnimals(){
         API["GetAllAnimals"]().then((data) => {
             Animals = data
-            console.log(Animals)
         })
     }
     function GetProfil(event) {
@@ -51,7 +50,6 @@
         try {
             User = jwtDecode(localStorage.getItem("Token"))
             GetAllAnimals()
-            console.log(User)
         } catch (error) {
             console.log(error)
         }

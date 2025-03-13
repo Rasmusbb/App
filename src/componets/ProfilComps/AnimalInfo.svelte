@@ -1,40 +1,61 @@
 <script>
     import PictureList from '$lib/PictureList.js';
+    import EditCopyButton from './EditCopyButton.svelte';
+    import API from '../../Logic/API.js'
     import { onMount } from 'svelte';
+    import { nonpassive } from 'svelte/legacy';
     export let ProfilData = {}
     export let User = {}
     let canEdit = false
     let editProfilData = {}
     let showedit = {}
+    let EditedProfilChanged = false
     let EditedProfil = {}
+    let Options = [{value: null,name: "Intet Anlæg"}]
 
+    function editProfil(event){
+        switch(event.detail.origin){
+            case("FysikID"):
+                editProfilData.physicalID = event.detail.value
+            break
+            case("Alder"):
+                editProfilData.age = event.detail.value 
+            break
+            case("Føseldag"):
+                editProfilData.birthDate = event.detail.value 
+            break
+            case("Køn"):
+                editProfilData.gender = event.detail.value
+            break
+            case("Art"):
+                editProfilData.species = event.detail.value
+            break
+
+            case("Anlæg"):
+                editProfilData.enclosureName = event.detail.name
+                editProfilData.enclosureID = event.detail.value 
+                console.log(event.detail.value)
+                break
+        }
+        EditedProfilChanged = true
+
+    }
     function copyLink(value) {
         navigator.clipboard.writeText(value);
     }
-
-    function Showedit(editbutton){
-        if (User.role == "ZooKeeper" || User.role == "Admin"){
-            switch(editbutton){
-                case "physicalID":
-                    showedit.physicalID = true
-                break;
-                case "age":
-                 showedit.age = true
-                break;
-
-                case "gender":
-                 showedit.gender = true
-                break;
-
-                case "specie":
-                    showedit.specie = true
-                break;
-            }
-            console.log("Edited allowed")
-        }else{
-            console.log("Edited not allowed")
-        }
+    
+    async function GetAllEnclosuresOptions(){
+        await API["GetAllEnclosures"](localStorage.getItem("Token")).then((Data) => {
+            Data.forEach(Enclosure => {
+                let option ={
+                    value: Enclosure.enclosureID,
+                    name: Enclosure.enclosureName
+                }
+                Options.push(option)
+            });
+        })        
     }
+
     function calculateAge(birthday){
         const birthDate = new Date(birthday);
         const today = new Date();
@@ -42,27 +63,30 @@
         return age;
     }
 
-    function Startup(){
-        switch(ProfilData.gender){
+    function TranslateGender(gender){
+        switch(gender){
             case "Male":
-                ProfilData.gender = "Han"
+                ProfilData.Tgender = "Han"
             break;
             case "Female":
-                ProfilData.gender = "Hun"
+                ProfilData.Tgender = "Hun"
             break;
             
             default:
-                ProfilData.gender = "Intet køn"
+                ProfilData.Tgender = "Intet køn"
             break;
         }
+    }
+    async function Startup(){
+        TranslateGender(ProfilData.gender)
         if (User.role == "ZooKeeper" || User.role == "Admin"){
             canEdit = true
         }
         ProfilData.age = calculateAge(ProfilData.birthday)
+        await GetAllEnclosuresOptions()
         
     }
     onMount(() => {
-        console.log(ProfilData)
         Startup()
         editProfilData = ProfilData
     })
@@ -73,67 +97,24 @@
     <h2>Dyrets Oplysninger</h2>
 </div>
 <div class="info">
-    <div class="button-container">
-        {#if showedit.physicalID}
-            <input class="button" bind:value={ProfilData.physicalID}/>
-        {:else}
-            <button on:click={Showedit("physicalID")} class="button">FysikID: {ProfilData.physicalID}</button>
-        {/if}
-            <button type="button" on:click={() => copyLink(ProfilData.physicalID)} class="copy-button">
-                <img src={PictureList["Copy"]} title="Kopier"  alt="Copy Icon" />
-            </button>
-    </div>
-    <div class="button-container">
-        <button on:click={() => copyLink(ProfilData.age)} class="button">Alder: {ProfilData.age} år</button>
-        <button type="button" class="copy-button">
-            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
-        </button>
-    </div>
-    <div class="button-container">
-        <button  class="button">Føselsdag: {ProfilData.birthday.split("T")[0]}</button>
-        <button type="button" class="copy-button">
-            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
-        </button>
-    </div>
-    <div class="button-container">
-        <button  class="button">Køn: {ProfilData.gender}</button>
-        <button type="button" class="copy-button">
-            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
-        </button>
-    </div>
-    <div class="button-container">
-        <button class="button">Art: {ProfilData.specie}</button>
-        <button type="button" class="copy-button">
-            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
-        </button>
-    
-    </div>
-    <div class="button-container">
-        <button on:click={() => copyLink(ProfilData.specie)} class="button">Anlæg: {ProfilData.enclosure}</button>
-        <button type="button" class="copy-button">
-            <img src={PictureList["Copy"]} title="Kopier" alt="Copy Icon" />
-        </button>
-    </div>
+    <EditCopyButton Name={"FysikID"} Data={ProfilData.physicalID} on:submit={editProfil()}></EditCopyButton>
+    <EditCopyButton Name={"Alder"} Data={ProfilData.age} messureingunit={"år"}></EditCopyButton>
+    <EditCopyButton Name={"Føseldag"} Data={ProfilData.birthday.split("T")[0]}></EditCopyButton>
+    <EditCopyButton Name={"Køn"} Data={ProfilData.Tgender}></EditCopyButton>
+    <EditCopyButton Name={"Art"} Data={ProfilData.species}></EditCopyButton>
+    <EditCopyButton Type="Selector" Options={Options} Name={"Anlæg"} Data={ProfilData.enclosureName} on:submit={editProfil}></EditCopyButton>
 </div>
+{#if EditedProfilChanged}
+<div class="button-group">
+    <button class="save-button" on:click={console.log(editProfilData)}>Gem ændringer</button>
+    <button class="cancel-button">Fortryd ændringer</button>
+</div>
+{/if}
 
 <style>
     .Header{
         display: flex;
         width: 100%;
-    }
-
-    .contact-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2em;
-        background: #f8f9fa;
-        border-radius: 12px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        margin: auto;
-        margin-top: 5em;
-
     }
 
     .info {
@@ -144,40 +125,41 @@
         width: 100%;
     }
 
-    .button-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5em; 
-    }
-
-    .copy-button{
-        background-color: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    .button {
+    .button-group {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        gap: 1em;
+        margin-top: 1em;
+    }
+
+    .save-button, .cancel-button {
+        flex: 1; /* Makes buttons equal width */
         padding: 0.8em;
-        width: 100%;
         font-size: 1em;
+        font-weight: bold;
         border: none;
         border-radius: 8px;
-        background: #007bff;
-        color: white;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: background 0.3s ease, transform 0.1s ease;
     }
 
-    .button:hover {
-        background: #0056b3;
+    .save-button {
+        background-color: #28a745; /* Green */
+        color: white;
     }
 
-    img {
-		height: 1em;
-        width: 1em;
-	}
+    .save-button:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    .cancel-button {
+        background-color: #dc3545; /* Red */
+        color: white;
+    }
+
+    .cancel-button:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
+    }
+
 </style>
